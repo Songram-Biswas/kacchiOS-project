@@ -1,7 +1,7 @@
 # Makefile for kacchiOS
-CC = gcc
-LD = ld
-AS = as
+CC = i686-elf-gcc
+LD = i686-elf-ld
+AS = i686-elf-as
 
 CFLAGS = -m32 -ffreestanding -O2 -Wall -Wextra -nostdinc \
          -fno-builtin -fno-stack-protector -I.
