@@ -2,6 +2,7 @@
 #include "types.h"
 #include "serial.h"
 #include "string.h"
+extern uint8_t __kernel_end[];
 
 #define MAX_INPUT 128
 
@@ -19,6 +20,13 @@ void kmain(void) {
     serial_puts("========================================\n");
     serial_puts("Hello from kacchiOS!\n");
     serial_puts("Running null process...\n\n");
+    serial_puts("Roll Check: ");
+    serial_put_int(55);
+    serial_puts(" to ");
+    serial_put_int(60);
+    serial_puts("\nKernel Ends at Memory Address: ");
+    serial_put_hex((uint32_t)__kernel_end);
+    serial_puts("\n\n");
     
     /* Main loop - the "null process" */
     while (1) {

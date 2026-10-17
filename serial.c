@@ -58,3 +58,43 @@ char serial_getc(void) {
     while (!serial_received());
     return inb(COM1);
 }
+void serial_put_int(int32_t num) {
+    char buf[12];
+    int i=0;
+
+    if (num==0 ){
+        serial_putc('-');
+    }
+    /* Jodi negative number hoy, age '-' print koro ebong positive বানিয়ে nao */
+    if (num < 0) {
+        serial_putc('-');
+        num = -num;
+    }
+    /* Shesher dik theke ekta ekta kore digit ber kore array-te rakho */
+    while (num > 0) {
+        int digit = num % 10;
+        buf[i++] = '0' + digit;
+        num = num / 10;
+    }
+
+    /* Array-te digit-gulo ulto ache, tai shesh theke shurur dike print koro */
+    while (i > 0) {
+        i--;
+        serial_putc(buf[i]);
+    }
+}
+
+/* 32-bit Hexadecimal বা Memory Address print korar function (jemon: 0x00104000) */
+void serial_put_hex(uint32_t num) {
+    const char* hex_chars = "0123456789ABCDEF";
+    int i;
+
+    serial_puts("0x");
+
+    /* 32-bit number-e 8-ta 4-bit (hex digit) thake: 28, 24, 20, 16, 12, 8, 4, 0 */
+    for (i = 28; i >= 0; i -= 4) {
+        uint8_t nibble = (num >> i) & 0xF;
+        serial_putc(hex_chars[nibble]);
+    }
+
+}

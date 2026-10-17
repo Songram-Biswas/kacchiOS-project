@@ -9,4 +9,9 @@ void serial_putc(char c);
 void serial_puts(const char* str);
 char serial_getc(void);
 
+// my newly added helper functions
+void serial_put_int(int32_t num);
+void serial_put_hex(uint32_t num);
+
+
 #endif
