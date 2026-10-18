@@ -2,6 +2,8 @@
 #include "types.h"
 #include "serial.h"
 #include "string.h"
+//memory add korchi
+#include "memory.h"
 extern uint8_t __kernel_end[];
 
 #define MAX_INPUT 128
@@ -27,6 +29,35 @@ void kmain(void) {
     serial_puts("\nKernel Ends at Memory Address: ");
     serial_put_hex((uint32_t)__kernel_end);
     serial_puts("\n\n");
+
+    // Memory manager test
+    memory_init();
+
+    serial_puts("1. Allocating 64 bytes (p1)...\n");
+    void* p1 = kmalloc(64);
+    serial_puts("   p1 Address: ");
+    serial_put_hex((uint32_t)p1);
+    serial_puts("\n");
+
+    serial_puts("2. Allocating 128 bytes (p2)...\n");
+    void* p2 = kmalloc(128);
+    serial_puts("   p2 Address: ");
+    serial_put_hex((uint32_t)p2);
+    serial_puts("\n");
+
+    memory_dump();
+
+    serial_puts("\n3. Freeing p1...\n");
+    kfree(p1);
+    memory_dump();
+
+    serial_puts("\n4. Allocating Process Stack...\n");
+    void* s1 = alloc_stack();
+    serial_puts("   Stack 1 Top: ");
+    serial_put_hex((uint32_t)s1);
+    serial_puts("\n\n");
+
+    //----------------
     
     /* Main loop - the "null process" */
     while (1) {
