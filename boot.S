@@ -32,3 +32,4 @@ start:
     cli
     hlt
     jmp .halt
+    

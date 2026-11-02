@@ -15,19 +15,18 @@ typedef enum {
 typedef struct {
     uint32_t pid;
     ProcessState state;
-    uint32_t esp;              /* Saved Stack Pointer */
-    void* stack_base;          /* free_stack-এর জন্য পয়েন্টার */
+    uint32_t esp;
+    void* stack_base;
     char name[32];
 } PCB;
 
-/* Function prototypes */
 void process_init(void);
-int process_create(void (*entry_point)(), const char* name);
+int process_create(void (*entry_point)(void), const char* name);
 void process_exit(void);
+int process_terminate(uint32_t pid);
 void process_dump(void);
 
-/* বর্তমান চলমান প্রসেস ট্র্যাকিং */
 extern PCB process_table[MAX_PROCESSES];
-extern int current_pid;
+extern int current_slot;
 
 #endif
